@@ -2,21 +2,21 @@
   <div class="row mb-3">
       <div class="col-md-6">
           <div class="form-group">
-              <label for="dropdown1">Dropdown 1</label>
-              <select class="form-control" id="dropdown1">
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
+              <label for="dropdown1">Project</label>
+              <select class="form-control" id="dropdown1" [(ngModel)]="selectedProject" (change)="onProjectSelect($event)">
+                  <option *ngFor="let project of projects" [value]="project.id">
+                      {{ project.name }}
+                  </option>
               </select>
           </div>
       </div>
       <div class="col-md-6">
           <div class="form-group">
-              <label for="dropdown2">Dropdown 2</label>
-              <select class="form-control" id="dropdown2">
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
+              <label for="dropdown2">Tasks</label>
+              <select class="form-control" id="dropdown2" [(ngModel)]="selectedProjecttitle"  (change)="onProjectTaskSelect($event)">
+                  <option *ngFor="let project of projectTask" [value]="project.id">
+                      {{ project.title }}
+                  </option>
               </select>
           </div>
       </div>
@@ -25,19 +25,7 @@
   <div class="row mb-3">
       <div class="col-md-12">
           <div class="form-group">
-              <label for="inputBox">Task Title</label>
-              <input [(ngModel)]="taskTitle" type="text" class="form-control" id="inputBox">
-          </div>
-      </div>
-      <div class="">
-        <button (click)="createTask()" class="mt-2 btn btn-sm btn-success" type="button">Submit</button>
-      </div>
-  </div>
-
-  <div class="row mb-3">
-      <div class="col-md-12">
-          <div class="form-group">
-              <label for="textarea">Textarea</label>
+              <label for="textarea">Task Description</label>
               <textarea [(ngModel)]="taskDescription" class="form-control" id="textarea" rows="10"></textarea>
           </div>
       </div>

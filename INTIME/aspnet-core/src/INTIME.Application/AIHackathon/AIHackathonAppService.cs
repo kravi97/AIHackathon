@@ -19,14 +19,14 @@ namespace INTIME.AIHackathon
     {
 
         private static readonly HttpClient client = new HttpClient();
-        //private static readonly string aiApiUrl = "https://futureframe-openai.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2023-05-15";
-        //private static readonly string aiApiKey = "46QdSqnoge6wQdGh49rdqXMK9bxbo2AOq1rWOvwZhNpAG6DRg4cXJQQJ99BAACYeBjFXJ3w3AAABACOGfqhk"; // Replace with your actual API Key
-        //private static string clientId = "e87446ee-95ce-4891-a7b1-89000d338182";
+        private static readonly string aiApiUrl = "https://futureframe-openai.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2023-05-15";
+        private static readonly string aiApiKey = "46QdSqnoge6wQdGh49rdqXMK9bxbo2AOq1rWOvwZhNpAG6DRg4cXJQQJ99BAACYeBjFXJ3w3AAABACOGfqhk"; // Replace with your actual API Key
+        private static string clientId = "e87446ee-95ce-4891-a7b1-89000d338182";
         private readonly IRepository<Project, Guid> _projectRepository;
         private readonly IRepository<ProjectTask, Guid> _projectTaskRepository;
-        private static readonly string aiApiUrl = "";
-        private static readonly string aiApiKey = ""; // Replace with your actual API Key
-        private static string clientId = "";
+        //private static readonly string aiApiUrl = "";
+        //private static readonly string aiApiKey = ""; // Replace with your actual API Key
+        //private static string clientId = "";
 
         public AIHackathonAppService(IRepository<ProjectTask, Guid> projectTaskRepository, IRepository<Project, Guid> projectRepository)
         {
@@ -37,7 +37,7 @@ namespace INTIME.AIHackathon
 
         public class TaskItem
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public string Title { get; set; }
             public string Status { get; set; }
         }
@@ -52,7 +52,7 @@ namespace INTIME.AIHackathon
             {
                 List<TaskItem> tasks = new List<TaskItem>
             {
-                new TaskItem { Id = 1, Title = "Bug: Surgeries Primary provider is not showing in record when its role is changed.", Status = "Completed" }
+                new TaskItem { Id = "1", Title = "Bug: Surgeries Primary provider is not showing in record when its role is changed.", Status = "Completed" }
             };
                 return tasks;
             }
@@ -171,11 +171,11 @@ namespace INTIME.AIHackathon
             }
         }
     
-        public async Task<List<ProjectTask>> GetProjectTasksAsync()
+        public async Task<List<ProjectTask>> GetProjectTasksAsync(Guid projectId)
         {
             try
             {
-                var tasks = await _projectTaskRepository.GetAllListAsync();
+                var tasks = await _projectTaskRepository.GetAllListAsync(xx=>xx.ProjectId==projectId);
                 return tasks;
             }
             catch (Exception ex)
@@ -217,6 +217,7 @@ namespace INTIME.AIHackathon
         {
             try
             {
+                var aa = _projectRepository.GetAll();
                 var tasks = await _projectRepository.GetAllListAsync();
                 return tasks;
             }

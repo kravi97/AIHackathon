@@ -1146,10 +1146,15 @@ export class AIHackathonServiceProxy {
     }
 
     /**
+     * @param projectId (optional) 
      * @return OK
      */
-    getProjectTasks(): Observable<ProjectTask[]> {
-        let url_ = this.baseUrl + "/api/services/app/AIHackathon/GetProjectTasks";
+    getProjectTasks(projectId: string | undefined): Observable<ProjectTask[]> {
+        let url_ = this.baseUrl + "/api/services/app/AIHackathon/GetProjectTasks?";
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1193,6 +1198,118 @@ export class AIHackathonServiceProxy {
             else {
                 result200 = <any>null;
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    createProjectTask(body: ProjectTask | undefined): Observable<ProjectTask> {
+        let url_ = this.baseUrl + "/api/services/app/AIHackathon/CreateProjectTask";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateProjectTask(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateProjectTask(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ProjectTask>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ProjectTask>;
+        }));
+    }
+
+    protected processCreateProjectTask(response: HttpResponseBase): Observable<ProjectTask> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProjectTask.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    createProject(body: Project | undefined): Observable<Project> {
+        let url_ = this.baseUrl + "/api/services/app/AIHackathon/CreateProject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateProject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateProject(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<Project>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<Project>;
+        }));
+    }
+
+    protected processCreateProject(response: HttpResponseBase): Observable<Project> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Project.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -32191,7 +32308,7 @@ export interface ISwitchedAccountAuthenticateResultModel {
 }
 
 export class TaskItem implements ITaskItem {
-    id!: number;
+    id!: string | undefined;
     title!: string | undefined;
     status!: string | undefined;
 
@@ -32229,7 +32346,7 @@ export class TaskItem implements ITaskItem {
 }
 
 export interface ITaskItem {
-    id: number;
+    id: string | undefined;
     title: string | undefined;
     status: string | undefined;
 }
