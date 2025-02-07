@@ -1,0 +1,10 @@
+﻿@page "/"
+@using INTIME.Maui.Services.Navigation
+@inherits INTIMEMainLayoutPageComponentBase
+
+@code {
+    protected override void OnInitialized()
+    {
+        Resolve<INavigationService>().NavigateTo(NavigationUrlConsts.User);
+    }
+}

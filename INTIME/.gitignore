@@ -1,0 +1,27 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# IDEs and editors
+.vs/
+.idea/
+/aspnet-core/src/INTIME.Web.Mvc/Properties/PublishProfiles/FolderProfile.pubxml
+aspnet-core/test/JMeter/AspNetZeroDotNetCoreSimpleTest.jmx
+/aspnet-core/build/outputs
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+aspnet-core/DeleteBinsAndObjs.bat
+
+*.pubxml
+aspnet-core/src/INTIME.Web.Host/healthchecksdb
+aspnet-core/src/INTIME.Web.Public/healthchecksdb
+aspnet-core/src/INTIME.Web.Mvc/healthchecksdb
+*.pfx
+
+# Ingore excel backup of audit logs
+aspnet-core/src/INTIME.Web.Mvc/App_Data/AuditLogsBackups/*
+aspnet-core/src/INTIME.Web.Host/App_Data/AuditLogsBackups/*
+
+# Ignore Playwright screenshots
+ui-tests-playwright/**/*.png
