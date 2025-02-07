@@ -19,11 +19,14 @@ namespace INTIME.AIHackathon
     {
 
         private static readonly HttpClient client = new HttpClient();
-        private static readonly string aiApiUrl = "https://futureframe-openai.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2023-05-15";
-        private static readonly string aiApiKey = "46QdSqnoge6wQdGh49rdqXMK9bxbo2AOq1rWOvwZhNpAG6DRg4cXJQQJ99BAACYeBjFXJ3w3AAABACOGfqhk"; // Replace with your actual API Key
-        private static string clientId = "e87446ee-95ce-4891-a7b1-89000d338182";
+        //private static readonly string aiApiUrl = "https://futureframe-openai.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2023-05-15";
+        //private static readonly string aiApiKey = "46QdSqnoge6wQdGh49rdqXMK9bxbo2AOq1rWOvwZhNpAG6DRg4cXJQQJ99BAACYeBjFXJ3w3AAABACOGfqhk"; // Replace with your actual API Key
+        //private static string clientId = "e87446ee-95ce-4891-a7b1-89000d338182";
         private readonly IRepository<Project, Guid> _projectRepository;
         private readonly IRepository<ProjectTask, Guid> _projectTaskRepository;
+        private static readonly string aiApiUrl = "";
+        private static readonly string aiApiKey = ""; // Replace with your actual API Key
+        private static string clientId = "";
 
         public AIHackathonAppService(IRepository<ProjectTask, Guid> projectTaskRepository, IRepository<Project, Guid> projectRepository)
         {
